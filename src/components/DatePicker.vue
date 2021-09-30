@@ -1,22 +1,19 @@
 <template>
   <el-date-picker
+    id="price-date-picker"
     v-model="datePicker.date"
     format="DD.MM.YYYY."
     type="date"
     placeholder="Pick a day"
     :disabled-date="datePicker.disabledDate"
     :shortcuts="datePicker.shortcuts"
+    style="margin-left:auto"
   ></el-date-picker>
 </template>
 
 <script lang="ts" setup>
-import {
-  reactive, watchEffect, defineEmits,
-} from 'vue';
-import {
-  getDateDaysAgo,
-  getDateYearsAgo,
-} from '../helpers/dates';
+import { reactive, watchEffect, defineEmits } from 'vue';
+import { getDateDaysAgo, getDateYearsAgo } from '../helpers/dates';
 
 const emits = defineEmits(['dateChange']);
 
@@ -52,3 +49,6 @@ watchEffect(() => {
 });
 
 </script>
+
+<style lang="scss" scoped>
+</style>

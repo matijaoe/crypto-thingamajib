@@ -88,6 +88,7 @@ watchEffect(async () => {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    height: 8rem;
   }
 
   &__name {
@@ -109,7 +110,7 @@ watchEffect(async () => {
   &__date {
     font-style: italic;
 
-    &--exact {
+    &--value {
       font-weight: bold;
     }
   }
