@@ -1,18 +1,124 @@
 <template>
-  <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js + TypeScript App"/>
+  <div>
+    <div class="coin__header">
+      <p v-if="date" class="coin__date">
+        Price on
+        <span class="coin__date--value">{{ formatDate(date, 'verbose') }}</span>
+      </p>
+      <DatePicker @date-change="setDate" />
+    </div>
+    <div v-if="coin.symbol">
+      <div class="coin__data">
+        <img :src="coin.image.thumb" />
+        <h1 class="coin__name">{{ coin.name }}</h1>
+        <span class="coin__ticker">({{ coin.symbol }})</span>
+      </div>
+      <h2>${{ formatPrice(coin.price) }}</h2>
+    </div>
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue';
-import HelloWorld from '@/components/HelloWorld.vue'; // @ is an alias to /src
+<script lang="ts" setup>
+import { ref, reactive, watchEffect } from 'vue';
+import { format } from 'date-fns';
+import numeral from 'numeral';
+import DatePicker from '@/components/DatePicker.vue';
+import {
+  formatDate,
+} from '../helpers/dates';
 
-export default defineComponent({
-  name: 'Home',
-  components: {
-    HelloWorld,
+const date = ref<string>('');
+
+const setDate = (newDate: string) => {
+  date.value = newDate;
+};
+
+interface Coin {
+  name: string,
+  symbol: string,
+  image: {
+    thumb: string,
+    small: string
+  }
+  price: number
+}
+
+const coin = reactive<Coin>({
+  name: '',
+  symbol: '',
+  image: {
+    thumb: '',
+    small: '',
   },
+  price: 0,
 });
+
+const formatPrice = (price: number) => numeral(price).format('0,0.00');
+
+watchEffect(async () => {
+  if (date.value) {
+    const coinId = 'bitcoin';
+    const baseUrl = 'https://api.coingecko.com/api/v3';
+    try {
+      const formattedDate = format(new Date(date.value), 'dd-MM-yyyy');
+      const res = await fetch(`${baseUrl}/coins/${coinId}/history?date=${formattedDate}&localization=false`);
+      const data = await res.json();
+      console.log(data);
+      const {
+        // eslint-disable-next-line camelcase
+        symbol, name, market_data, image,
+      } = data;
+      const { usd: price } = market_data.current_price;
+      coin.name = name;
+      coin.symbol = symbol;
+      coin.image = image;
+      coin.price = price;
+      console.log(coin);
+    } catch (error) {
+      console.error(error);
+    }
+  }
+});
+
 </script>
+
+<style lang="scss" scoped>
+.coin {
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  &__name {
+    font-size: 3rem;
+    line-height: 1;
+    margin: 0;
+  }
+
+  &__ticker {
+    font-weight: bold;
+    text-transform: uppercase;
+  }
+
+  &__price {
+    &--value {
+    }
+  }
+
+  &__date {
+    font-style: italic;
+
+    &--exact {
+      font-weight: bold;
+    }
+  }
+
+  &__data {
+    display: flex;
+    align-items: center;
+    gap: 1.6rem;
+    margin-bottom: 0.8rem;
+  }
+}
+</style>
