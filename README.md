@@ -1,4 +1,8 @@
-# bitcoin-tracker
+# crypto price history tracker thingy
+
+getting used to composition api & typescript
+
+but it will be clean af in the end
 
 ## Project setup
 ```
