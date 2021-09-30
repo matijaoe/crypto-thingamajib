@@ -1,4 +1,4 @@
-# bitcoin-tracker
+# crypto price history tracker thingy
 
 ## Project setup
 ```
