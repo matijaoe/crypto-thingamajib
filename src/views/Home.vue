@@ -3,7 +3,7 @@
     <div class="coin__header">
       <p v-if="date" class="coin__date">
         Price on
-        <span class="coin__date--value">{{ formatDate(date, 'verbose') }}</span>
+        <span class="coin__date--value">{{ formatDate(date, 'MMMM do, yyyy') }}</span>
       </p>
       <DatePicker @date-change="setDate" />
     </div>
@@ -20,12 +20,11 @@
 
 <script lang="ts" setup>
 import { ref, reactive, watchEffect } from 'vue';
-import { format } from 'date-fns';
-import numeral from 'numeral';
 import DatePicker from '@/components/DatePicker.vue';
 import {
   formatDate,
 } from '../helpers/dates';
+import { formatPrice } from '../helpers/numbers';
 
 const date = ref<string>('');
 
@@ -43,37 +42,38 @@ interface Coin {
   price: number
 }
 
-const coin = reactive<Coin>({
-  name: '',
-  symbol: '',
-  image: {
-    thumb: '',
-    small: '',
-  },
-  price: 0,
-});
+const coin = reactive<Coin | Record<string, never>>({});
 
-const formatPrice = (price: number) => numeral(price).format('0,0.00');
+const fetchCoinData = async (coinId: string, formattedDate: string) => {
+  const baseUrl = 'https://api.coingecko.com/api/v3';
+  const res = await fetch(`${baseUrl}/coins/${coinId}/history?date=${formattedDate}&localization=false`);
+  const data = await res.json();
+  console.log(data);
+  return data;
+};
+
+const setCoinData = (coinData: any) => {
+  const {
+    // eslint-disable-next-line camelcase
+    symbol, name, market_data, image,
+  } = coinData;
+  const { usd: price } = market_data.current_price;
+
+  coin.name = name;
+  coin.symbol = symbol;
+  coin.image = image;
+  coin.price = price;
+
+  console.log(coin);
+};
 
 watchEffect(async () => {
   if (date.value) {
     const coinId = 'bitcoin';
-    const baseUrl = 'https://api.coingecko.com/api/v3';
     try {
-      const formattedDate = format(new Date(date.value), 'dd-MM-yyyy');
-      const res = await fetch(`${baseUrl}/coins/${coinId}/history?date=${formattedDate}&localization=false`);
-      const data = await res.json();
-      console.log(data);
-      const {
-        // eslint-disable-next-line camelcase
-        symbol, name, market_data, image,
-      } = data;
-      const { usd: price } = market_data.current_price;
-      coin.name = name;
-      coin.symbol = symbol;
-      coin.image = image;
-      coin.price = price;
-      console.log(coin);
+      const formattedDate = formatDate(date.value, 'dd-MM-yyyy');
+      const coinData = await fetchCoinData(coinId, formattedDate);
+      setCoinData(coinData);
     } catch (error) {
       console.error(error);
     }

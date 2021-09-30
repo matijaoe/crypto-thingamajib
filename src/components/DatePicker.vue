@@ -21,7 +21,7 @@ import {
 const emits = defineEmits(['dateChange']);
 
 const datePicker = reactive({
-  date: Date.now(),
+  date: new Date(),
   disabledDate: (time: Date) => time.getTime() > Date.now(),
   shortcuts: [
     {
@@ -39,6 +39,10 @@ const datePicker = reactive({
     {
       text: 'A year ago',
       value: () => getDateYearsAgo(1),
+    },
+    {
+      text: 'Three years ago',
+      value: () => getDateYearsAgo(3),
     },
   ],
 });
