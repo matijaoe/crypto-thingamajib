@@ -7,9 +7,7 @@
 
 <script lang="ts" setup>
 import { computed, defineProps, toRefs } from 'vue';
-import {
-  formatDate,
-} from '../utils/dates';
+import { formatDate } from '../utils/dates';
 
 const props = defineProps<{
   date: Date | string

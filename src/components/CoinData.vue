@@ -1,12 +1,21 @@
 <template>
-  <div v-if="coin.symbol">
+  <!-- eslint-disable max-len -->
+  <div v-if="coin.symbol" class="coin">
     <div class="coin__data">
-      <img :src="coin.image.thumb" />
+      <img class="coin__thumb" :src="coin.image.thumb" />
       <h2 class="coin__name">{{ coin.name }}</h2>
       <span class="coin__ticker">{{ coin.symbol }}</span>
     </div>
     <p class="coin__price" v-if="coin.price">${{ formatPrice(coin.price) }}</p>
-    <p v-else>No price</p>
+    <p v-else class="coin__price--error">
+      No price
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+        <path fill="none" d="M0 0h24v24H0z" />
+        <path
+          d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10zm-1-7v2h2v-2h-2zm0-8v6h2V7h-2z"
+        />
+      </svg>
+    </p>
   </div>
   <div v-else>
     <p>No coin found</p>
@@ -17,9 +26,7 @@
 import {
   defineProps, reactive, computed, watchEffect,
 } from 'vue';
-import {
-  formatDate,
-} from '../utils/dates';
+import { formatDate } from '../utils/dates';
 import { formatPrice } from '../utils/numbers';
 // Composables
 import useRequest from '@/composables/useRequest';
@@ -27,7 +34,7 @@ import useDatePicker from '@/composables/useDatePicker';
 import { CoinHistorical, SimpleCoin } from '@/models/coins';
 
 const props = defineProps<{
-  coinId: string,
+  coinId: string;
 }>();
 
 const { date } = useDatePicker();
@@ -47,15 +54,15 @@ const unpackCoinData = (coinData: CoinHistorical) => {
     try {
       const {
         // eslint-disable-next-line camelcase
-        symbol, name, image,
+        symbol,
+        name,
+        image,
       } = coinData;
 
       coin.name = name;
       coin.symbol = symbol;
       coin.image = image;
-      coin.price = 'market_data' in coinData
-        ? coinData.market_data?.current_price?.usd || null
-        : null;
+      coin.price = 'market_data' in coinData ? coinData.market_data?.current_price?.usd || null : null;
     } catch (err) {
       console.error(err);
     }
@@ -108,6 +115,12 @@ watchEffect(async () => {
 
   &__price {
     font-size: 2rem;
+
+    &--error {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
   }
 }
 </style>
