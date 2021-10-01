@@ -5,6 +5,8 @@
   --font-mono: 'Space Mono', monospace;
   --font-display: 'Libre Barcode 39 Text', cursive;
 
+  --border-radius: 6px;
+
   //* Colors
   // Gray Tones
   --gray-50: #fafafa;
@@ -29,6 +31,17 @@
   --yellow-800: #92400e;
   --yellow-900: #78350f;
 
+  --orange-50: #fff7ed;
+  --orange-100: #ffedd5;
+  --orange-200: #fed7aa;
+  --orange-300: #fdba74;
+  --orange-400: #fb923c;
+  --orange-500: #f97316;
+  --orange-600: #ea580c;
+  --orange-700: #c2410c;
+  --orange-800: #9a3412;
+  --orange-900: #7c2d12;
+
   --blue-50: #eff6ff;
   --blue-100: #dbeafe;
   --blue-200: #bfdbfe;
@@ -40,7 +53,11 @@
   --blue-800: #1e40af;
   --blue-900: #1e3a8a;
 
-  --primary: var(--blue-600);
+  --primary: var(--orange-500);
+  --primary-lighter: var(--orange-400);
+  --primary-light: var(--orange-200);
+  --primary-darker: var(--orange-600);
+  --primary-dark: var(--orange-700);
 
   // Color Granulation
   --primary-color: #333a4b;
