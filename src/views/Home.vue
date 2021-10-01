@@ -23,8 +23,9 @@ import { ref, reactive, watchEffect } from 'vue';
 import DatePicker from '@/components/DatePicker.vue';
 import {
   formatDate,
-} from '../helpers/dates';
-import { formatPrice } from '../helpers/numbers';
+} from '../utils/dates';
+import { formatPrice } from '../utils/numbers';
+import useRequest from '@/composables/useRequest';
 
 const date = ref<string>('');
 
@@ -45,11 +46,11 @@ interface Coin {
 const coin = reactive<Coin | Record<string, never>>({});
 
 const fetchCoinData = async (coinId: string, formattedDate: string) => {
+  const { payload, makeRequest } = useRequest();
   const baseUrl = 'https://api.coingecko.com/api/v3';
-  const res = await fetch(`${baseUrl}/coins/${coinId}/history?date=${formattedDate}&localization=false`);
-  const data = await res.json();
-  console.log(data);
-  return data;
+  const url = `${baseUrl}/coins/${coinId}/history?date=${formattedDate}&localization=false`;
+  await makeRequest(url);
+  return payload.value;
 };
 
 const setCoinData = (coinData: any) => {
@@ -63,8 +64,6 @@ const setCoinData = (coinData: any) => {
   coin.symbol = symbol;
   coin.image = image;
   coin.price = price;
-
-  console.log(coin);
 };
 
 watchEffect(async () => {

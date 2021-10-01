@@ -1,7 +1,6 @@
 <template>
   <el-date-picker
-    id="price-date-picker"
-    v-model="datePicker.date"
+    v-model="date"
     format="DD.MM.YYYY."
     type="date"
     placeholder="Pick a day"
@@ -12,13 +11,15 @@
 </template>
 
 <script lang="ts" setup>
-import { reactive, watchEffect, defineEmits } from 'vue';
-import { getDateDaysAgo, getDateYearsAgo } from '../helpers/dates';
+import {
+  ref, reactive, watch, defineEmits, onMounted,
+} from 'vue';
+import { getDateDaysAgo, getDateYearsAgo } from '../utils/dates';
 
 const emits = defineEmits(['dateChange']);
 
+const date = ref<Date>(new Date());
 const datePicker = reactive({
-  date: new Date(),
   disabledDate: (time: Date) => time.getTime() > Date.now(),
   shortcuts: [
     {
@@ -44,9 +45,9 @@ const datePicker = reactive({
   ],
 });
 
-watchEffect(() => {
-  emits('dateChange', datePicker.date);
-});
+onMounted(() => emits('dateChange', date.value));
+
+watch(date, (value) => emits('dateChange', value));
 
 </script>
 
