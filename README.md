@@ -4,6 +4,8 @@ getting used to composition api & typescript
 
 focus is (will be) on clean code and best practices
 
+[Demo](https://distinct-rice.surge.sh/)
+
 ## Project setup
 ```
 npm install
