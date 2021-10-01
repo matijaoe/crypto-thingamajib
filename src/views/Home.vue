@@ -5,7 +5,7 @@
         Price on
         <span class="coin__date--value">{{ formatDate(date, 'MMMM do, yyyy') }}</span>
       </p>
-      <DatePicker @date-change="setDate" />
+      <DatePicker />
     </div>
     <div v-if="coin.symbol">
       <div class="coin__data">
@@ -19,19 +19,17 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, reactive, watchEffect } from 'vue';
+import { reactive, watchEffect } from 'vue';
 import DatePicker from '@/components/DatePicker.vue';
 import {
   formatDate,
 } from '../utils/dates';
 import { formatPrice } from '../utils/numbers';
+// Composables
 import useRequest from '@/composables/useRequest';
+import useDatePicker from '@/composables/useDatePicker';
 
-const date = ref<string>('');
-
-const setDate = (newDate: string) => {
-  date.value = newDate;
-};
+const { date } = useDatePicker();
 
 interface Coin {
   name: string,

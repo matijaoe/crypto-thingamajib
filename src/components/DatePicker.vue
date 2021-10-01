@@ -11,14 +11,12 @@
 </template>
 
 <script lang="ts" setup>
-import {
-  ref, reactive, watch, defineEmits, onMounted,
-} from 'vue';
+import { reactive } from 'vue';
 import { getDateDaysAgo, getDateYearsAgo } from '../utils/dates';
+import useDatePicker from '@/composables/useDatePicker';
 
-const emits = defineEmits(['dateChange']);
+const { date } = useDatePicker();
 
-const date = ref<Date>(new Date());
 const datePicker = reactive({
   disabledDate: (time: Date) => time.getTime() > Date.now(),
   shortcuts: [
@@ -44,11 +42,6 @@ const datePicker = reactive({
     },
   ],
 });
-
-onMounted(() => emits('dateChange', date.value));
-
-watch(date, (value) => emits('dateChange', value));
-
 </script>
 
 <style lang="scss" scoped>
