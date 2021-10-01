@@ -2,7 +2,7 @@
 
 getting used to composition api & typescript
 
-but it will be clean af in the end
+focus is (will be) on clean code and best practices
 
 ## Project setup
 ```
