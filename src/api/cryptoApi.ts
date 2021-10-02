@@ -39,3 +39,10 @@ export const fetchCoinHistoryData = async (
   });
   return payload.value;
 };
+
+export const fetchAllCoinsIds = async () => {
+  const { payload, makeRequest } = useRequest();
+  const url = `${baseUrl}/coins/list`;
+  await makeRequest(url);
+  return payload.value || [];
+};

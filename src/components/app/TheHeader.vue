@@ -54,7 +54,7 @@
   border-color: transparent;
 
   &:hover {
-    background: var(--primary-50);
+    background: var(--primary-200);
   }
 }
 </style>

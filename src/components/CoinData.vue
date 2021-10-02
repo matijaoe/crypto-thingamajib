@@ -1,12 +1,12 @@
 <template>
   <!-- eslint-disable max-len -->
-  <div v-if="coin.symbol" class="coin">
+  <div v-if="coin && coin.id" class="coin">
     <div class="coin__data">
       <img class="coin__thumb" :src="coin.image.thumb" />
       <h2 class="coin__name">{{ coin.name }}</h2>
       <span class="coin__ticker">{{ coin.symbol }}</span>
     </div>
-    <p class="coin__price" v-if="coin.price">${{ formatPrice(coin.price) }}</p>
+    <p class="coin__price" v-if="priceInUSD">${{ formatPrice(priceInUSD) }}</p>
     <p v-else class="coin__price--error">
       No price
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
@@ -23,14 +23,15 @@
 </template>
 
 <script lang="ts" setup>
+/* eslint-disable camelcase */
+
 import {
   defineProps, reactive, computed, watchEffect,
 } from 'vue';
 import { formatDate } from '../utils/dates';
 import { formatPrice } from '../utils/numbers';
-// Composables
 import useDatePicker from '@/composables/useDatePicker';
-import { CoinHistorical, SimpleCoin } from '@/models/coins';
+import { CoinHistorical } from '@/models/coins';
 import { fetchCoinHistoryData } from '@/api/cryptoApi';
 
 const props = defineProps<{
@@ -38,29 +39,33 @@ const props = defineProps<{
 }>();
 
 const { date } = useDatePicker();
-const coin = reactive<SimpleCoin | Record<string, never>>({});
+const coin = reactive<CoinHistorical | Record<string, never>>({});
 
-const unpackCoinData = (coinData: CoinHistorical) => {
-  if (coinData) {
-    try {
-      const {
-        // eslint-disable-next-line camelcase
-        symbol,
-        name,
-        image,
-      } = coinData;
+const unpackCoinData = (coinData: CoinHistorical | Record<string, never>) => {
+  try {
+    const {
+      id,
+      symbol,
+      name,
+      image,
+      developer_data,
+      community_data,
+      market_data,
+    } = coinData;
 
-      coin.name = name;
-      coin.symbol = symbol;
-      coin.image = image;
-      coin.price = 'market_data' in coinData ? coinData.market_data?.current_price?.usd || null : null;
-    } catch (err) {
-      console.error(err);
-    }
-  } else {
-    coin.symbol = null;
+    coin.id = id;
+    coin.name = name;
+    coin.symbol = symbol;
+    coin.image = image;
+    coin.market_data = market_data;
+    coin.developer_data = developer_data;
+    coin.community_data = community_data;
+  } catch (err) {
+    console.error(err);
   }
 };
+
+const priceInUSD = computed(() => coin?.market_data?.current_price?.usd);
 
 const formattedDate = computed(() => formatDate(date.value, 'dd-MM-yyyy'));
 
@@ -112,6 +117,15 @@ watchEffect(async () => {
       display: flex;
       align-items: center;
       gap: 0.6rem;
+    }
+  }
+}
+
+.card {
+  &:hover {
+    .coin__ticker {
+      background: var(--primary-100);
+      color: var(--primary-700);
     }
   }
 }

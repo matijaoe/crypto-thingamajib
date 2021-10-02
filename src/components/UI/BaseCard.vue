@@ -19,8 +19,7 @@
 
   &:hover {
     border-color: var(--primary-200);
-    box-shadow: 3px 3px 1.2rem 6px var(--primary-50),
-      -1px -1px 1.2rem var(--primary-50);
+    box-shadow: 0 0 2rem 0 var(--primary-100);
   }
 }
 </style>
