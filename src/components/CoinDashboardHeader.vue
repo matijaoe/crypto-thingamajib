@@ -1,13 +1,13 @@
 <template>
   <header class="date__header">
     <DateData :date="date" />
-    <DatePicker />
+    <!-- <DatePicker /> -->
   </header>
 </template>
 
 <script lang="ts" setup>
 import useDatePicker from '@/composables/useDatePicker';
-import DatePicker from '@/components/DatePicker.vue';
+// import DatePicker from '@/components/DatePicker.vue';
 import DateData from '@/components/DateData.vue';
 
 const { date } = useDatePicker();

@@ -3,15 +3,25 @@ import { CoinHistorical, Coin } from '@/models/coins';
 
 const baseUrl = 'https://api.coingecko.com/api/v3';
 
+interface CoinFetchObject {
+  ids?: string;
+  vsCurrency: string;
+  perPage?: number;
+  orderBy?: string;
+  page?: number;
+  sparkline?: boolean;
+  priceChangePercentage?: string;
+}
+
 export const fetchCoins = async ({
   ids = '',
   perPage = 10,
-  vsCurrency = 'usd',
+  vsCurrency,
   orderBy = 'market_cap_desc',
   page = 1,
   sparkline = false,
   priceChangePercentage = '24h',
-}): Promise<Coin[] | []> => {
+}: CoinFetchObject): Promise<Coin[] | []> => {
   const { payload, makeRequest } = useRequest();
   const url = `${baseUrl}/coins/markets`;
   await makeRequest(url, {

@@ -1,11 +1,9 @@
 <template>
-  <div>
-    <DatePanel />
-    <CoinDashboard />
-  </div>
+  <CoinDashboardHeader />
+  <CoinDashboard />
 </template>
 
 <script lang="ts" setup>
 import CoinDashboard from '@/components/CoinDashboard.vue';
-import DatePanel from '@/components/DatePanel.vue';
+import CoinDashboardHeader from '@/components/CoinDashboardHeader.vue';
 </script>

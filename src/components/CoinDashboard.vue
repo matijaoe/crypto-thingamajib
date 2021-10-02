@@ -20,6 +20,7 @@
 import {
   ref, onMounted, watch, computed,
 } from 'vue';
+import { useStore } from 'vuex';
 import CoinData from '@/components/CoinData.vue';
 import { Coin } from '@/models/coins';
 import { fetchCoins, fetchAllCoinsIds } from '@/api/cryptoApi';
@@ -28,12 +29,17 @@ const coins = ref<Coin[]>([]);
 const currentPage = ref<number>(1);
 const perPage = ref<number>(6);
 const totalCount = ref<number>(0);
+const { state } = useStore();
 
 const totalPages = computed(() => totalCount.value / perPage.value);
 
 const setCoins = async () => {
   try {
-    coins.value = await fetchCoins({ perPage: perPage.value, page: currentPage.value });
+    coins.value = await fetchCoins({
+      perPage: perPage.value,
+      vsCurrency: state.currency,
+      page: currentPage.value,
+    });
   } catch (err) {
     console.error(err);
   }
