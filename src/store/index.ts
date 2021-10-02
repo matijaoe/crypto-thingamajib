@@ -5,7 +5,11 @@ export default createStore({
     coins: ['bitcoin'],
     currency: 'eth',
   },
-  mutations: {},
+  mutations: {
+    setCurrency(state, currency: string) {
+      state.currency = currency;
+    },
+  },
   actions: {},
   modules: {},
 });

@@ -38,7 +38,7 @@ const props = defineProps<{
 
 const { state } = useStore();
 
-const currencyIcon = computed(() => `currency-${getCurrencyIcon(state.currency)}`);
+const currencyIcon = computed(() => getCurrencyIcon(state.currency));
 
 const priceHasGrown = computed(() => props.coin.price_change_percentage_24h > 0);
 

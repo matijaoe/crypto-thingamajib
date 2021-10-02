@@ -1,5 +1,6 @@
 <template>
   <header class="date__header">
+    <CurrencySelect />
     <DateData :date="date" />
     <!-- <DatePicker /> -->
   </header>
@@ -9,6 +10,7 @@
 import useDatePicker from '@/composables/useDatePicker';
 // import DatePicker from '@/components/DatePicker.vue';
 import DateData from '@/components/DateData.vue';
+import CurrencySelect from '@/components/CurrencySelect.vue';
 
 const { date } = useDatePicker();
 

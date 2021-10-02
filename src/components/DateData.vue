@@ -1,6 +1,7 @@
 <template>
   <p class="date">
     <span class="date-value">{{ formattedDate }}</span>
+    <base-icon name="calendar" size="md"></base-icon>
   </p>
 </template>
 
@@ -19,6 +20,9 @@ const formattedDate = computed(() => formatDate(date.value, 'MMMM do, yyyy'));
 <style lang="scss" scoped>
 .date {
   font-style: italic;
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
 }
 .date-value {
   font-weight: bold;

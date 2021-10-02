@@ -4,7 +4,6 @@ const currencyIconMap: { [key: string]: string } = {
   brl: 'real',
   btc: 'bitcoin',
   cad: 'dollar-canadian',
-  cent: 'cent',
   chf: 'frank',
   cny: 'renminbi',
   czk: 'krone-czech',
@@ -31,10 +30,12 @@ const currencyIconMap: { [key: string]: string } = {
 
 type CurrencyIconFn = (code: string) => string | null;
 
+export const getSupportedCurrencies = () => Object.keys(currencyIconMap);
+
 // eslint-disable-next-line import/prefer-default-export
 export const getCurrencyIcon: CurrencyIconFn = (currencyCode: string) => {
   if (currencyCode in currencyIconMap) {
-    return currencyIconMap[currencyCode];
+    return `currency-${currencyIconMap[currencyCode]}`;
   }
   return null;
 };

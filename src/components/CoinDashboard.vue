@@ -18,7 +18,7 @@
 
 <script lang="ts" setup>
 import {
-  ref, onMounted, watch, computed,
+  ref, onMounted, watchEffect, computed,
 } from 'vue';
 import { useStore } from 'vuex';
 import CoinData from '@/components/CoinData.vue';
@@ -30,8 +30,6 @@ const currentPage = ref<number>(1);
 const perPage = ref<number>(6);
 const totalCount = ref<number>(0);
 const { state } = useStore();
-
-const totalPages = computed(() => totalCount.value / perPage.value);
 
 const setCoins = async () => {
   try {
@@ -48,10 +46,11 @@ const setCoins = async () => {
 onMounted(async () => {
   const allIds = await fetchAllCoinsIds();
   totalCount.value = allIds?.length || 0;
-  await setCoins();
 });
 
-watch(currentPage, setCoins);
+const totalPages = computed(() => totalCount.value / perPage.value);
+
+watchEffect(() => setCoins());
 
 const changePage = (page: number) => {
   currentPage.value = page;
