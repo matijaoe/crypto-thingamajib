@@ -27,8 +27,10 @@ import useLatestCoinData from '@/composables/useLatestCoinData';
 
 const { coins, fetchLatestCoins } = useLatestCoinData();
 
+const PER_PAGE = 8;
+
 const currentPage = ref<number>(1);
-const perPage = ref<number>(6);
+const perPage = ref<number>(PER_PAGE);
 const totalCount = ref<number>(0);
 const { state } = useStore();
 
