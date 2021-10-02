@@ -40,6 +40,7 @@
 import {
   defineProps, reactive, computed, watchEffect,
 } from 'vue';
+import { useStore } from 'vuex';
 import { formatDate } from '../utils/dates';
 import { formatPrice } from '../utils/numbers';
 import useDatePicker from '@/composables/useDatePicker';
@@ -52,6 +53,9 @@ const props = defineProps<{
 
 const { date } = useDatePicker();
 const coin = reactive<CoinHistorical | Record<string, never>>({});
+
+const { state } = useStore();
+console.log(state);
 
 const unpackCoinData = (coinData: CoinHistorical | Record<string, never>) => {
   try {

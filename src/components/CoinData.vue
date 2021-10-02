@@ -8,11 +8,11 @@
       <span class="coin__ticker">{{ coin.symbol }}</span>
     </div>
     <div class="coin__price" v-if="coin.current_price">
-      <base-icon name="currency-dollar" size="lg"></base-icon>
+      <base-icon :name="currencyIcon" size="lg"></base-icon>
       <p class="coin__price--amount">{{ formatPrice(coin.current_price) }}</p>
       <p class="coin__percentage" :class="[changeIndicator]">
-        <base-icon :name="priceHasGrown ? 'trending-up' : 'trending-down'" size="sm"></base-icon>
-        {{ formatPercentage(Math.abs(coin.price_change_percentage_24h)) }}
+        <base-icon :name="changeIcon" size="sm"></base-icon>
+        {{ formatPercentage(Math.abs(coin.price_change_percentage_24h)) }}%
       </p>
     </div>
     <p v-else class="coin__price--error">
@@ -26,17 +26,23 @@
 </template>
 
 <script lang="ts" setup>
-/* eslint-disable camelcase */
-
 import { defineProps, computed } from 'vue';
+import { useStore } from 'vuex';
 import { formatPrice, formatPercentage } from '../utils/numbers';
 import { Coin } from '@/models/coins';
+import { getCurrencyIcon } from '@/utils/currency';
 
 const props = defineProps<{
   coin: Coin;
 }>();
 
+const { state } = useStore();
+
+const currencyIcon = computed(() => `currency-${getCurrencyIcon(state.currency)}`);
+
 const priceHasGrown = computed(() => props.coin.price_change_percentage_24h > 0);
+
+const changeIcon = priceHasGrown.value ? 'trending-up' : 'trending-down';
 const changeIndicator = priceHasGrown.value ? 'up' : 'down';
 
 </script>
@@ -80,6 +86,7 @@ const changeIndicator = priceHasGrown.value ? 'up' : 'down';
     font-size: 10rem;
     opacity: 0.2;
     color: var(--primary-200);
+    user-select: none;
   }
 
   &__thumb {
