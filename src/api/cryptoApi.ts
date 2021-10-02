@@ -1,8 +1,6 @@
 import useRequest from '@/composables/useRequest';
 import { CoinHistorical, Coin } from '@/models/coins';
 
-const baseUrl = 'https://api.coingecko.com/api/v3';
-
 interface CoinFetchObject {
   ids?: string;
   vsCurrency: string;
@@ -12,6 +10,8 @@ interface CoinFetchObject {
   sparkline?: boolean;
   priceChangePercentage?: string;
 }
+
+const baseUrl = 'https://api.coingecko.com/api/v3';
 
 export const fetchCoins = async ({
   ids = '',

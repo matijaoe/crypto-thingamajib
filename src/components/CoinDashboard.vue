@@ -22,18 +22,25 @@ import {
 } from 'vue';
 import { useStore } from 'vuex';
 import CoinData from '@/components/CoinData.vue';
-import { Coin } from '@/models/coins';
-import { fetchCoins, fetchAllCoinsIds } from '@/api/cryptoApi';
+import { fetchAllCoinsIds } from '@/api/cryptoApi';
+import useLatestCoinData from '@/composables/useLatestCoinData';
 
-const coins = ref<Coin[]>([]);
+const { coins, fetchLatestCoins } = useLatestCoinData();
+
 const currentPage = ref<number>(1);
 const perPage = ref<number>(6);
 const totalCount = ref<number>(0);
 const { state } = useStore();
 
+const totalPages = computed(() => totalCount.value / perPage.value);
+
+const changePage = (page: number) => {
+  currentPage.value = page;
+};
+
 const setCoins = async () => {
   try {
-    coins.value = await fetchCoins({
+    await fetchLatestCoins({
       perPage: perPage.value,
       vsCurrency: state.currency,
       page: currentPage.value,
@@ -48,13 +55,8 @@ onMounted(async () => {
   totalCount.value = allIds?.length || 0;
 });
 
-const totalPages = computed(() => totalCount.value / perPage.value);
+watchEffect(setCoins);
 
-watchEffect(() => setCoins());
-
-const changePage = (page: number) => {
-  currentPage.value = page;
-};
 </script>
 
 <style lang="scss" scoped>
