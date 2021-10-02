@@ -2,11 +2,12 @@
   <!-- eslint-disable max-len -->
   <div v-if="coin && coin.id" class="coin">
     <div class="coin__data">
-      <img class="coin__thumb" :src="coin.image.thumb" />
+      <p class="coin__rank">#{{ coin.market_cap_rank }}</p>
+      <img class="coin__thumb" :src="coin.image" />
       <h2 class="coin__name">{{ coin.name }}</h2>
       <span class="coin__ticker">{{ coin.symbol }}</span>
     </div>
-    <p class="coin__price" v-if="priceInUSD">${{ formatPrice(priceInUSD) }}</p>
+    <p class="coin__price" v-if="coin.current_price">${{ formatPrice(coin.current_price) }}</p>
     <p v-else class="coin__price--error">
       No price
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
@@ -31,56 +32,60 @@ import {
 import { formatDate } from '../utils/dates';
 import { formatPrice } from '../utils/numbers';
 import useDatePicker from '@/composables/useDatePicker';
-import { CoinHistorical } from '@/models/coins';
+import { Coin } from '@/models/coins';
 import { fetchCoinHistoryData } from '@/api/cryptoApi';
 
 const props = defineProps<{
-  coinId: string;
+  coin: Coin;
 }>();
 
-const { date } = useDatePicker();
-const coin = reactive<CoinHistorical | Record<string, never>>({});
+// const props = defineProps<{
+//   coinId: string;
+// }>();
 
-const unpackCoinData = (coinData: CoinHistorical | Record<string, never>) => {
-  try {
-    const {
-      id,
-      symbol,
-      name,
-      image,
-      developer_data,
-      community_data,
-      market_data,
-    } = coinData;
+// const { date } = useDatePicker();
+// const coin = reactive<CoinHistorical | Record<string, never>>({});
 
-    coin.id = id;
-    coin.name = name;
-    coin.symbol = symbol;
-    coin.image = image;
-    coin.market_data = market_data;
-    coin.developer_data = developer_data;
-    coin.community_data = community_data;
-  } catch (err) {
-    console.error(err);
-  }
-};
+// const unpackCoinData = (coinData: CoinHistorical | Record<string, never>) => {
+//   try {
+//     const {
+//       id,
+//       symbol,
+//       name,
+//       image,
+//       developer_data,
+//       community_data,
+//       market_data,
+//     } = coinData;
 
-const priceInUSD = computed(() => coin?.market_data?.current_price?.usd);
+//     coin.id = id;
+//     coin.name = name;
+//     coin.symbol = symbol;
+//     coin.image = image;
+//     coin.market_data = market_data;
+//     coin.developer_data = developer_data;
+//     coin.community_data = community_data;
+//   } catch (err) {
+//     console.error(err);
+//   }
+// };
 
-const formattedDate = computed(() => formatDate(date.value, 'dd-MM-yyyy'));
+// const priceInUSD = computed(() => coin?.market_data?.current_price?.usd);
 
-watchEffect(async () => {
-  if (date.value) {
-    try {
-      const coinData = await fetchCoinHistoryData(props.coinId, formattedDate.value);
-      if (coinData) {
-        unpackCoinData(coinData);
-      }
-    } catch (error) {
-      console.error(error);
-    }
-  }
-});
+// const formattedDate = computed(() => formatDate(date.value, 'dd-MM-yyyy'));
+
+// watchEffect(async () => {
+//   if (date.value) {
+//     try {
+//       const coinData = await fetchCoinHistoryData(props.coinId, formattedDate.value);
+//       if (coinData) {
+//         unpackCoinData(coinData);
+//       }
+//     } catch (error) {
+//       console.error(error);
+//     }
+//   }
+// });
 </script>
 
 <style lang="scss" scope>
@@ -111,6 +116,22 @@ watchEffect(async () => {
     background: var(--gray-200);
     color: var(--gray-600);
     font-size: 1.2rem;
+  }
+
+  &__rank {
+    position: absolute;
+    top: 0;
+    margin: 0;
+    left: 0;
+    bottom: 0;
+    font-size: 10rem;
+    opacity: 0.2;
+    color: var(--primary-200)
+  }
+
+  &__thumb {
+    width: 24px;
+    height: 24px;
   }
 
   &__price {

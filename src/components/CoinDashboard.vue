@@ -2,12 +2,12 @@
   <section class="coin-dashboard">
     <div class="coin-grid">
       <base-card class="coin-card" v-for="coin in coins" :key="coin.id">
-        <CoinData :coin-id="coin.id" />
+        <CoinData :coin="coin" />
       </base-card>
     </div>
     <el-pagination
       v-if="totalPages"
-      default-current-page="1"
+      :default-current-page="1"
       background
       layout="prev, pager, next"
       :total="totalPages"
@@ -26,7 +26,7 @@ import { fetchCoins, fetchAllCoinsIds } from '@/api/cryptoApi';
 
 const coins = ref<Coin[]>([]);
 const currentPage = ref<number>(1);
-const perPage = ref<number>(24);
+const perPage = ref<number>(4);
 const totalCount = ref<number>(0);
 
 const totalPages = computed(() => totalCount.value / perPage.value);
