@@ -120,6 +120,7 @@ const changeIndicator = priceHasGrown.value ? 'up' : 'down';
     align-items: center;
     gap: 0.4rem;
     font-weight: bold;
+    z-index: 20;
 
     &.up {
       color: var(--success);
