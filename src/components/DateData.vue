@@ -1,6 +1,5 @@
 <template>
   <p class="date">
-    Price on
     <span class="date-value">{{ formattedDate }}</span>
   </p>
 </template>

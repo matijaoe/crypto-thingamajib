@@ -10,6 +10,7 @@
 
 <style lang="scss" scoped>
 .card {
+  position: relative;
   padding: 1.6rem;
   border: 2px solid var(--border-color);
   background: var(--white);

@@ -100,9 +100,12 @@ watchEffect(async () => {
   }
 
   &__ticker {
+    position: absolute;
+    top: -1rem;
+    right: -1rem;
     font-weight: bold;
     text-transform: uppercase;
-    transform: translateY(-1rem) rotate(6deg);
+    transform: rotate(12deg);
     padding: 0.2rem 0.6rem;
     border-radius: var(--border-radius);
     background: var(--gray-200);

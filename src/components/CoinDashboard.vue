@@ -1,10 +1,13 @@
 <template>
   <section class="coin-dashboard">
-    <base-card class="coin-card" v-for="coin in coins" :key="coin.id">
-      <CoinData :coin-id="coin.id" />
-    </base-card>
+    <div class="coin-grid">
+      <base-card class="coin-card" v-for="coin in coins" :key="coin.id">
+        <CoinData :coin-id="coin.id" />
+      </base-card>
+    </div>
     <el-pagination
       v-if="totalPages"
+      default-current-page="1"
       background
       layout="prev, pager, next"
       :total="totalPages"
@@ -22,7 +25,7 @@ import { Coin } from '@/models/coins';
 import { fetchCoins, fetchAllCoinsIds } from '@/api/cryptoApi';
 
 const coins = ref<Coin[]>([]);
-const page = ref<number>(1);
+const currentPage = ref<number>(1);
 const perPage = ref<number>(4);
 const totalCount = ref<number>(0);
 
@@ -30,7 +33,7 @@ const totalPages = computed(() => totalCount.value / perPage.value);
 
 const setCoins = async () => {
   try {
-    coins.value = await fetchCoins({ perPage: perPage.value, page: page.value });
+    coins.value = await fetchCoins({ perPage: perPage.value, page: currentPage.value });
   } catch (err) {
     console.error(err);
   }
@@ -42,18 +45,24 @@ onMounted(async () => {
   await setCoins();
 });
 
-watch(page, setCoins);
+watch(currentPage, setCoins);
 
-const changePage = (currentPage: number) => {
-  page.value = currentPage;
+const changePage = (page: number) => {
+  currentPage.value = page;
 };
 </script>
 
 <style lang="scss" scoped>
 .coin-dashboard {
+  display: flex;
+  flex-direction: column;
+  gap: 3.2rem;
+}
+.coin-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(24rem, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(30rem, 1fr));
   gap: 1.6rem;
+  align-items: start;
 }
 
 .coin-card {

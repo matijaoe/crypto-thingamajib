@@ -5,7 +5,7 @@ const baseUrl = 'https://api.coingecko.com/api/v3';
 
 export const fetchCoins = async ({
   ids = '',
-  perPage = 20,
+  perPage = 10,
   vsCurrency = 'usd',
   orderBy = 'market_cap_desc',
   page = 1,
