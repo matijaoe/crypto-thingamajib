@@ -36,11 +36,27 @@
 
   &__link {
     display: inline-block;
-    padding: 0.2rem 1rem;
+    padding: 0.4rem 1.4rem;
+    border-radius: var(--border-radius);
+    transition: var(--transition);
+    font-weight: bold;
+    border: 2px solid transparent;
 
     &:hover {
-      color: var(--link-hover);
+      border-color: var(--primary-100);
     }
+  }
+}
+
+.router-link-exact-active {
+  //your desired design when link is clicked
+  background: var(--primary-100);
+  color: var(--primary-800);
+  border-color: transparent;
+
+  &:hover {
+    background: var(--primary-200);
+    border-color: transparent;
   }
 }
 </style>

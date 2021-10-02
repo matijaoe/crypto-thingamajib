@@ -1,8 +1,8 @@
 <template>
   <section class="coin-dashboard">
-    <el-card class="box-card" v-for="(coin) in coins" :key="coin.id">
+    <base-card class="card" v-for="(coin) in coins" :key="coin.id">
       <CoinData :coin-id="coin.id" />
-    </el-card>
+    </base-card>
   </section>
 </template>
 

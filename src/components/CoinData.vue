@@ -92,12 +92,13 @@ watchEffect(async () => {
   &__data {
     display: flex;
     align-items: center;
-    gap: 1.6rem;
+    gap: 0.8rem;
     margin-bottom: 0.8rem;
   }
 
   &__name {
-    font-size: 2.4rem;
+    font-size: 2rem;
+    font-weight: bold;
     line-height: 1;
     margin: 0.8rem 0;
   }
@@ -105,12 +106,12 @@ watchEffect(async () => {
   &__ticker {
     font-weight: bold;
     text-transform: uppercase;
-    transform: translateY(-1rem) rotate(4deg) translateX(-0.8rem);
+    transform: translateY(-1rem) rotate(6deg);
     padding: 0.2rem 0.6rem;
     border-radius: var(--border-radius);
-    background: var(--primary-light);
-    color: var(--primary-dark);
-    font-size: 1.4rem;
+    background: var(--gray-200);
+    color: var(--gray-600);
+    font-size: 1.2rem;
   }
 
   &__price {

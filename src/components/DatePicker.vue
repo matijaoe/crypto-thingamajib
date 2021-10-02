@@ -1,5 +1,6 @@
 <template>
   <el-date-picker
+    class="date-picker"
     v-model="date"
     format="DD.MM.YYYY."
     type="date"
@@ -44,5 +45,10 @@ const datePicker = reactive({
 });
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
+.el-input__inner {
+  border-width: 2px !important;
+  border-color: var(--border-color) !important;
+  font-family: var(--font-mono) !important;
+}
 </style>

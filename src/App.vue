@@ -8,7 +8,11 @@
 </template>
 
 <script lang="ts" setup>
+import { useStore } from 'vuex';
 import TheHeader from '@/components/app/TheHeader.vue';
+
+const store = useStore();
+console.log(store.state.coins);
 </script>
 
 <style lang="scss">
