@@ -26,7 +26,7 @@ import { fetchCoins, fetchAllCoinsIds } from '@/api/cryptoApi';
 
 const coins = ref<Coin[]>([]);
 const currentPage = ref<number>(1);
-const perPage = ref<number>(4);
+const perPage = ref<number>(24);
 const totalCount = ref<number>(0);
 
 const totalPages = computed(() => totalCount.value / perPage.value);
