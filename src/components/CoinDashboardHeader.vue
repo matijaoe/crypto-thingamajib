@@ -46,6 +46,6 @@ const refreshCoinData = () => {
 .v-align {
   display: flex;
   align-items: center;
-  gap: 1.6rem;
+  gap: 0.8rem;
 }
 </style>
