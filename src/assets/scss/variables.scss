@@ -45,6 +45,12 @@
   --indigo-800: #3730a3;
   --indigo-900: #312e81;
 
+  --red-600: #dc2626;
+  --green-600: #059669;
+
+  --error: var(--red-600);
+  --success: var(--green-600);
+
   --primary-50: var(--indigo-50);
   --primary-100: var(--indigo-100);
   --primary-200: var(--indigo-200);

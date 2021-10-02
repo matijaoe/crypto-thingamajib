@@ -12,12 +12,12 @@
             enterable
           >
             <router-link class="nav__link" :to="link.to">
-              <i :class="['ti', link.icon]"></i>
+              <base-icon :name="link.icon" size="md" />
               <span class="nav__link--name" v-show="isCurrentRoute(link.name)">{{ link.name }}</span>
             </router-link>
           </el-tooltip>
           <router-link class="nav__link" :to="link.to" v-else>
-            <i :class="['ti', link.icon]"></i>
+            <base-icon :name="link.icon" size="md" />
             <span class="nav__link--name" v-show="isCurrentRoute(link.name)">{{ link.name }}</span>
           </router-link>
         </li>
@@ -28,39 +28,31 @@
 
 <script lang="ts" setup>
 import { useRoute } from 'vue-router';
-import { watch } from 'vue';
 
 const route = useRoute();
-console.log(route.path);
-
-watch(route, () => {
-  console.log(route.name);
-});
 
 const navLinks = [
   {
     name: 'Home',
     to: '/',
-    icon: 'ti-home-2',
+    icon: 'home-2',
   },
   {
     name: 'Personal',
     to: '/personal',
-    icon: 'ti-activity',
+    icon: 'activity',
   },
   {
     name: 'Settings',
     to: '/settings',
-    icon: 'ti-settings',
+    icon: 'settings',
   },
   {
     name: 'About',
     to: '/about',
-    icon: 'ti-info-square',
+    icon: 'info-square',
   },
 ];
-
-// console.log();
 
 const isCurrentRoute = (name: string) => route.name === name;
 
@@ -121,9 +113,5 @@ const isCurrentRoute = (name: string) => route.name === name;
   &:hover {
     background: var(--primary-200);
   }
-}
-
-.font-primary {
-  background: red;
 }
 </style>

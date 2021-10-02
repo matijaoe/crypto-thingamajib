@@ -7,6 +7,7 @@ import store from './store';
 import 'element-plus/dist/index.css';
 
 import BaseCard from '@/components/UI/BaseCard.vue';
+import BaseIcon from '@/components/UI/BaseIcon.vue';
 
 const app = createApp(App)
   .use(store)
@@ -14,5 +15,6 @@ const app = createApp(App)
   .use(ElementPlus);
 
 app.component('base-card', BaseCard);
+app.component('base-icon', BaseIcon);
 
 app.mount('#app');
