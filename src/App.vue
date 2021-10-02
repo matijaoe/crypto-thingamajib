@@ -2,11 +2,9 @@
   <el-container>
     <TheHeader />
     <el-main>
-      <router-view v-slot="{ Component }">
-        <transition name="slide" mode="out-in">
-          <component :is="Component" />
-        </transition>
-      </router-view>
+      <transition name="slide" mode="out-in">
+        <router-view />
+      </transition>
     </el-main>
   </el-container>
 </template>
@@ -27,5 +25,4 @@ import TheHeader from '@/components/app/TheHeader.vue';
   flex-direction: column !important;
   overflow-x: hidden;
 }
-
 </style>

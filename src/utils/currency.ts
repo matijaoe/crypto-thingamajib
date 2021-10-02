@@ -19,7 +19,7 @@ const currencyIconMap: { [key: string]: string } = {
   nkk: 'krone-danish',
   pln: 'zloty',
   rub: 'rubel',
-  sar: 'rijal',
+  sar: 'riyal',
   sek: 'krone-swedish',
   sgd: 'dollar-singapore',
   thb: 'bath',

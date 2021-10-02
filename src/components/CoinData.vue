@@ -10,10 +10,12 @@
     <div class="coin__price" v-if="coin.current_price">
       <base-icon :name="currencyIcon" size="lg"></base-icon>
       <p class="coin__price--amount">{{ formatPrice(coin.current_price, state.currency) }}</p>
-      <p class="coin__percentage" :class="[changeIndicator]">
-        <base-icon :name="changeIcon" size="sm"></base-icon>
-        {{ formatPercentage(Math.abs(coin.price_change_percentage_24h)) }}%
-      </p>
+      <el-tooltip effect="light" content="24hr change" placement="top">
+        <p class="coin__percentage" :class="[changeIndicator]">
+          <base-icon :name="changeIcon" size="sm"></base-icon>
+          {{ formatPercentage(Math.abs(coin.price_change_percentage_24h)) }}%
+        </p>
+      </el-tooltip>
     </div>
     <p v-else class="coin__price--error">
       No price

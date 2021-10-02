@@ -1,7 +1,9 @@
 <template>
   <header class="date__header">
     <div class="v-align">
-      <base-icon class="icon" name="refresh" @click="refreshCoinData"></base-icon>
+      <el-button size="mini">
+        <base-icon class="icon" name="refresh" @click="refreshCoinData"></base-icon>
+      </el-button>
       <CurrencySelect />
     </div>
     <DateData :date="date" />

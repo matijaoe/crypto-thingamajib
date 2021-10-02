@@ -22,7 +22,7 @@ const formattedDate = computed(() => formatDate(date.value, 'MMMM do, yyyy'));
   font-style: italic;
   display: flex;
   align-items: center;
-  gap: 0.8rem;
+  gap: 1.6rem;
 }
 .date-value {
   font-weight: bold;
