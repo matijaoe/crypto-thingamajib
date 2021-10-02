@@ -40,10 +40,9 @@
     border-radius: var(--border-radius);
     transition: var(--transition);
     font-weight: bold;
-    border: 2px solid transparent;
 
     &:hover {
-      border-color: var(--primary-100);
+      background: var(--gray-100);
     }
   }
 }
@@ -55,8 +54,7 @@
   border-color: transparent;
 
   &:hover {
-    background: var(--primary-200);
-    border-color: transparent;
+    background: var(--primary-50);
   }
 }
 </style>

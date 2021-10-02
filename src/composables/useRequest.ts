@@ -1,13 +1,16 @@
 import { readonly, ref } from 'vue';
+import axios from 'axios';
 
 export default () => {
   const loading = ref(false);
   const payload = ref(null);
 
-  const makeRequest = async (url: string) => {
+  const makeRequest = async (url: string, params = {}) => {
     loading.value = true;
-    const res = await fetch(url);
-    payload.value = await res.json();
+    const { data } = await axios.get(url, {
+      params,
+    });
+    payload.value = data;
   };
 
   return {

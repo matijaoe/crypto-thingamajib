@@ -29,25 +29,16 @@ import {
 import { formatDate } from '../utils/dates';
 import { formatPrice } from '../utils/numbers';
 // Composables
-import useRequest from '@/composables/useRequest';
 import useDatePicker from '@/composables/useDatePicker';
 import { CoinHistorical, SimpleCoin } from '@/models/coins';
+import { fetchCoinHistoryData } from '@/api/cryptoApi';
 
 const props = defineProps<{
   coinId: string;
 }>();
 
 const { date } = useDatePicker();
-
 const coin = reactive<SimpleCoin | Record<string, never>>({});
-
-const fetchCoinData = async (formattedDate: string) => {
-  const { payload, makeRequest } = useRequest();
-  const baseUrl = 'https://api.coingecko.com/api/v3';
-  const url = `${baseUrl}/coins/${props.coinId}/history?date=${formattedDate}&localization=false`;
-  await makeRequest(url);
-  return payload.value;
-};
 
 const unpackCoinData = (coinData: CoinHistorical) => {
   if (coinData) {
@@ -76,7 +67,7 @@ const formattedDate = computed(() => formatDate(date.value, 'dd-MM-yyyy'));
 watchEffect(async () => {
   if (date.value) {
     try {
-      const coinData = await fetchCoinData(formattedDate.value);
+      const coinData = await fetchCoinHistoryData(props.coinId, formattedDate.value);
       if (coinData) {
         unpackCoinData(coinData);
       }
