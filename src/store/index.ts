@@ -28,16 +28,15 @@ export default createStore({
     addToFavorites(state: DefaultState, coinId: string) {
       state.favoriteCoins.push(coinId);
       console.log(`${coinId} added to favs`);
+      console.log(state.favoriteCoins);
     },
   },
   actions: {
     toggleFavorites({ state, commit }, coinId: string) {
-      if (state.favoriteCoins.includes(coinId)) {
-        const mutation = state.favoriteCoins.includes(coinId)
-          ? 'removeFromFavorites'
-          : 'addToFavorites';
-        commit(mutation, coinId);
-      }
+      const mutation = state.favoriteCoins.includes(coinId)
+        ? 'removeFromFavorites'
+        : 'addToFavorites';
+      commit(mutation, coinId);
     },
   },
   modules: {

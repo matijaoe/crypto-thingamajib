@@ -19,7 +19,7 @@
   transition: var(--transition);
 
   &:hover {
-    border-color: var(--primary-200);
+    border-color: var(--primary-100);
     box-shadow: 0 0 2rem 0 var(--primary-100);
   }
 }

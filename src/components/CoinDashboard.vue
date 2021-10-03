@@ -1,6 +1,9 @@
 <template>
   <section class="coin-dashboard">
-    <el-switch v-model="showOnlyFavs" />
+    <div class="fav-switch">
+      <el-switch v-model="showOnlyFavs" />
+      <span>Only favorites</span>
+    </div>
     <div class="coin-grid">
       <base-card
         class="coin-card"
@@ -60,11 +63,12 @@ watchEffect(() => {
 });
 
 const showFavoriteToggleNotification = (coin: CoinWithFav, added: boolean) => {
-  const title = added ? `${coin.name} added to favorites!` : `${coin.name} removed from favorites`;
+  const title = added ? `${coin.symbol.toUpperCase()} added to favorites!` : `${coin.symbol.toUpperCase()} removed from favorites`;
   const message = `Right click to ${added ? 'remove it' : 'add it again'}`;
   ElNotification({
     title,
     message,
+    duration: 2000,
     position: 'top-left',
   });
 };
@@ -117,5 +121,16 @@ const changePage = (page: number) => {
 
 .coin-card {
   min-height: 14.1rem;
+}
+
+.fav-switch {
+  display: flex;
+  align-items: center;
+  gap: 1.8rem;
+}
+
+.el-switch.is-checked .el-switch__core {
+  border-color: var(--border-color) !important;
+  background: var(--primary-600) !important;
 }
 </style>
