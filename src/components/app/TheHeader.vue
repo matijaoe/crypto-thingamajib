@@ -105,7 +105,6 @@ const isCurrentRoute = (name: string) => route.name === name;
 }
 
 .router-link-exact-active {
-  //your desired design when link is clicked
   background: var(--primary-100);
   color: var(--primary-800);
   border-color: transparent;

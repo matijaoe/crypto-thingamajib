@@ -17,12 +17,17 @@ export default () => {
     totalCount.value = count;
   };
 
+  const setPerPage = (count: number) => {
+    perPage.value = count;
+  };
+
   return {
-    totalPages,
+    totalPages: readonly(totalPages),
     currentPage: readonly(currentPage),
-    perPage,
+    perPage: readonly(perPage),
     totalCount: readonly(totalCount),
     setPage,
     setTotalCount,
+    setPerPage,
   };
 };

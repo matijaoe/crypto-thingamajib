@@ -9,7 +9,7 @@
     <div class="coin-grid">
       <base-card
         class="coin-card"
-        v-for="coin in coinsWithFav"
+        v-for="  coin in coinsWithFav"
         :key="coin.id"
         :class="{ 'is-fav': coin.favorite }"
         @click.right="toggleFavorite(coin)"
@@ -69,7 +69,13 @@ watch(coins, () => {
   }
 });
 
-// TODO: recalculate totalCount when on favorites, reset pages
+watch(showOnlyFavs, (onlyFavs) => {
+  if (onlyFavs) {
+    setPage(1);
+  }
+});
+
+// TODO: recalculate totalCount when on favorites
 const setCoins = async () => {
   try {
     await fetchLatestCoins({
@@ -82,12 +88,6 @@ const setCoins = async () => {
     console.error(err);
   }
 };
-
-watch(showOnlyFavs, (onlyFavs) => {
-  if (onlyFavs) {
-    setPage(1);
-  }
-});
 
 watchEffect(setCoins);
 

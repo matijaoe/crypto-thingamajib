@@ -46,6 +46,7 @@ const datePicker = reactive({
 </script>
 
 <style lang="scss">
+// TODO: check if needed
 .el-input__inner {
   border-width: 2px !important;
   border-color: var(--border-color) !important;

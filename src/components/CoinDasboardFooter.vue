@@ -6,11 +6,11 @@
     >Last updated at {{ formatDate(props.lastUpdated, 'H:mm:ss') }}</p>
     <el-pagination
       v-if="totalPages"
+      :total="totalPages"
       :current-page="currentPage"
       :default-current-page="1"
       background
       layout="prev, pager, next"
-      :total="totalPages"
       @current-change="setPage"
     ></el-pagination>
   </div>
@@ -29,6 +29,8 @@ const {
   currentPage,
   setPage,
 } = useHomepagePagination();
+
+// TODO: check if showing favs, if so, calculate how many total pages
 
 </script>
 
