@@ -134,11 +134,13 @@ const changeIndicator = priceHasGrown.value ? 'up' : 'down';
   &.is-fav {
     border-color: var(--primary-200);
     box-shadow: 0 0 2rem 0 var(--primary-100);
+    background: var(--primary-50);
+    color: var(--primary-700);
 
     &:hover {
-      background: var(--primary-50);
-      color: var(--primary-700);
       border-color: var(--primary-200);
+      background: var(--primary-100);
+      color: var(--primary-800);
     }
   }
 
