@@ -1,7 +1,8 @@
 <template>
   <section class="coin-dashboard">
     <div class="coin-grid">
-      <base-card class="coin-card" v-for="coin in coins" :key="coin.id">
+      <el-switch v-model="showOnlyFavs" />
+      <base-card class="coin-card" v-for="coin in shownCoins" :key="coin.id">
         <CoinData :coin="coin" />
       </base-card>
     </div>
@@ -23,18 +24,36 @@ import {
 import { useStore } from 'vuex';
 import CoinData from '@/components/CoinData.vue';
 import { fetchAllCoinsIds } from '@/api/cryptoApi';
+import { Coin } from '@/models/coins';
 import useLatestCoinData from '@/composables/useLatestCoinData';
 
 const { coins, fetchLatestCoins } = useLatestCoinData();
+
+interface CoinWithFav extends Coin {
+  favorite?: boolean
+}
+const { state } = useStore();
 
 const PER_PAGE = 9;
 
 const currentPage = ref<number>(1);
 const perPage = ref<number>(PER_PAGE);
 const totalCount = ref<number>(0);
-const { state } = useStore();
+const showOnlyFavs = ref<boolean>(false);
 
 const totalPages = computed(() => totalCount.value / perPage.value);
+const coinsWithFav = ref([...coins.value]);
+coinsWithFav.value = coins.value.map((coin: Coin) => {
+  let favorite = false;
+  if (state.favoriteCoins.includes(coin.id)) {
+    console.log(coin.id);
+    favorite = true;
+  }
+  return { ...coin, favorite };
+});
+
+const onlyFavs = computed(() => coins.value.filter((coin: CoinWithFav) => !!coin.favorite));
+const shownCoins = computed(() => showOnlyFavs.value ? onlyFavs.value : coinsWithFav.value);
 
 const changePage = (page: number) => {
   currentPage.value = page;
