@@ -2,7 +2,7 @@
   <section class="coin-dashboard">
     <CoinDashboardHeader />
     <CoinFavoritesSwitch
-      :has-favs="state.favoriteCoins.length"
+      :has-favs="!!state.favoriteCoins.length"
       :show-favs="showOnlyFavs"
       @toggle-favs="showOnlyFavs = !showOnlyFavs"
     />
@@ -44,6 +44,7 @@ const {
   currentPage,
   perPage,
   setTotalCount,
+  setPage,
 } = useHomepagePagination();
 
 const showOnlyFavs = ref<boolean>(false);
@@ -68,7 +69,7 @@ watch(coins, () => {
   }
 });
 
-// TODO: recalculate totalCount when on favorites
+// TODO: recalculate totalCount when on favorites, reset pages
 const setCoins = async () => {
   try {
     await fetchLatestCoins({
@@ -81,6 +82,12 @@ const setCoins = async () => {
     console.error(err);
   }
 };
+
+watch(showOnlyFavs, (onlyFavs) => {
+  if (onlyFavs) {
+    setPage(1);
+  }
+});
 
 watchEffect(setCoins);
 

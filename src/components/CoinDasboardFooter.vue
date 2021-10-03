@@ -6,6 +6,7 @@
     >Last updated at {{ formatDate(props.lastUpdated, 'H:mm:ss') }}</p>
     <el-pagination
       v-if="totalPages"
+      :current-page="currentPage"
       :default-current-page="1"
       background
       layout="prev, pager, next"
@@ -25,6 +26,7 @@ const props = defineProps<{
 }>();
 const {
   totalPages,
+  currentPage,
   setPage,
 } = useHomepagePagination();
 
