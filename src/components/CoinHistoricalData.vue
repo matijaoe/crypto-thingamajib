@@ -44,7 +44,7 @@ import { useStore } from 'vuex';
 import { formatDate } from '../utils/dates';
 import { formatPrice } from '../utils/numbers';
 import useDatePicker from '@/composables/useDatePicker';
-import { CoinHistorical } from '@/models/coins';
+import { CoinHistorical } from '@/models/coin';
 import { fetchCoinHistoryData } from '@/api/cryptoApi';
 
 const props = defineProps<{

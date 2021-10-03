@@ -1,5 +1,5 @@
 <template>
-  <header class="date__header">
+  <header class="dashboard__header">
     <div class="v-align">
       <el-button size="mini">
         <base-icon class="icon" name="refresh" @click="refreshCoinData"></base-icon>
@@ -31,12 +31,16 @@ const refreshCoinData = () => {
 </script>
 
 <style lang="scss" scoped>
-.date__header {
+.dashboard__header {
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  height: 6.4rem;
   margin-bottom: 2.4rem;
+
+  @media only screen and (max-width: 700px) {
+    flex-direction: column-reverse;
+    align-content: flex-start;
+    justify-content: flex-start;
+  }
 }
 
 .icon {

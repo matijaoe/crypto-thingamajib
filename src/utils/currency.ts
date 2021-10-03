@@ -28,12 +28,8 @@ const currencyIconMap: { [key: string]: string } = {
   xrp: 'ripple',
 };
 
-type CurrencyIconFn = (code: string) => string | null;
-
-export const getSupportedCurrencies = () => Object.keys(currencyIconMap);
-
 // eslint-disable-next-line import/prefer-default-export
-export const getCurrencyIcon: CurrencyIconFn = (currencyCode: string) => {
+export const getCurrencyIcon: (code: string) => string | null = (currencyCode: string) => {
   if (currencyCode in currencyIconMap) {
     return `currency-${currencyIconMap[currencyCode]}`;
   }

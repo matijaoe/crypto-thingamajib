@@ -10,7 +10,7 @@ import { computed, defineProps, toRefs } from 'vue';
 import { formatDate } from '../utils/dates';
 
 const props = defineProps<{
-  date: Date | string
+  date: Date
 }>();
 const { date } = toRefs(props);
 

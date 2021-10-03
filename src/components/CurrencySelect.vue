@@ -21,13 +21,12 @@
 <script lang="ts" setup>
 import { ref } from 'vue';
 import { useStore } from 'vuex';
-import { getSupportedCurrencies, getCurrencyIcon } from '@/utils/currency';
+import { getCurrencyIcon } from '@/utils/currency';
 
-const { state, commit } = useStore();
+const { state, getters, commit } = useStore();
 
 const selectedCurrency = ref<string | null>(state.currency);
-// TODO: move currencies to store
-const currencies = getSupportedCurrencies();
+const currencies = getters['currencies/getCurrencyCodes'];
 
 const selectCurrency = () => {
   commit('setCurrency', selectedCurrency.value);

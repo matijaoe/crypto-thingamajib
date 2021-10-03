@@ -1,15 +1,6 @@
 import useRequest from '@/composables/useRequest';
 import { CoinHistorical, Coin } from '@/models/coins';
-
-interface CoinFetchObject {
-  ids?: string;
-  vsCurrency: string;
-  perPage?: number;
-  orderBy?: string;
-  page?: number;
-  sparkline?: boolean;
-  priceChangePercentage?: string;
-}
+import { SimpleSingleCoin } from '@/models/simple-coins';
 
 const baseUrl = 'https://api.coingecko.com/api/v3';
 
@@ -21,7 +12,7 @@ export const fetchCoins = async ({
   page = 1,
   sparkline = false,
   priceChangePercentage = '24h',
-}: CoinFetchObject): Promise<Coin[] | []> => {
+}: SimpleSingleCoin): Promise<Coin[] | []> => {
   const { payload, makeRequest } = useRequest();
   const url = `${baseUrl}/coins/markets`;
   await makeRequest(url, {
@@ -50,7 +41,7 @@ export const fetchCoinHistoryData = async (
   return payload.value;
 };
 
-export const fetchAllCoinsIds = async () => {
+export const fetchAllCoinsIds = async (): Promise<Coin[] | []> => {
   const { payload, makeRequest } = useRequest();
   const url = `${baseUrl}/coins/list`;
   await makeRequest(url);
