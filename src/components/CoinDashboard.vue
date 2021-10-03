@@ -2,7 +2,14 @@
   <section class="coin-dashboard">
     <el-switch v-model="showOnlyFavs" />
     <div class="coin-grid">
-      <base-card v-for="coin in coinsWithFav" :key="coin.id" :class="{ 'is-fav': coin.favorite }">
+      <base-card
+        class="coin-card"
+        v-for="coin in coinsWithFav"
+        :key="coin.id"
+        :class="{ 'is-fav': coin.favorite }"
+        @click.right="toggleFavorite(coin)"
+        oncontextmenu="return false"
+      >
         <CoinData :coin="coin" />
       </base-card>
     </div>
@@ -19,9 +26,10 @@
 
 <script lang="ts" setup>
 import {
-  ref, onMounted, watchEffect, watch, computed,
+  ref, onMounted, watchEffect, computed,
 } from 'vue';
 import { useStore } from 'vuex';
+import { ElNotification } from 'element-plus';
 import CoinData from '@/components/CoinData.vue';
 import { fetchAllCoinsIds } from '@/api/cryptoApi';
 import { Coin } from '@/models/coins';
@@ -32,10 +40,11 @@ const { coins, fetchLatestCoins } = useLatestCoinData();
 interface CoinWithFav extends Coin {
   favorite?: boolean
 }
-const { state } = useStore();
+const { state, dispatch } = useStore();
 
 const PER_PAGE = 9;
 
+// REFS
 const currentPage = ref<number>(1);
 const perPage = ref<number>(PER_PAGE);
 const totalCount = ref<number>(0);
@@ -45,13 +54,26 @@ const coinsWithFav = ref<CoinWithFav[]>([...coins.value]);
 const totalPages = computed(() => totalCount.value / perPage.value);
 
 // Create coins but with favorites
-watch(coins, () => {
+watchEffect(() => {
   coinsWithFav.value = coins.value.map((coin: Coin) =>
     ({ ...coin, favorite: state.favoriteCoins.includes(coin.id) }));
 });
 
-const changePage = (page: number) => {
-  currentPage.value = page;
+const showFavoriteToggleNotification = (coin: CoinWithFav, added: boolean) => {
+  const title = added ? `${coin.name} added to favorites!` : `${coin.name} removed from favorites`;
+  const message = `Right click to ${added ? 'remove it' : 'add it again'}`;
+  ElNotification({
+    title,
+    message,
+    position: 'top-left',
+  });
+};
+
+const toggleFavorite = (coin: CoinWithFav) => {
+  // eslint-disable-next-line no-param-reassign
+  coin.favorite = !coin.favorite;
+  dispatch('toggleFavorites', coin.id);
+  showFavoriteToggleNotification(coin, coin.favorite);
 };
 
 const setCoins = async () => {
@@ -73,6 +95,10 @@ onMounted(async () => {
 });
 
 watchEffect(setCoins);
+
+const changePage = (page: number) => {
+  currentPage.value = page;
+};
 
 </script>
 
