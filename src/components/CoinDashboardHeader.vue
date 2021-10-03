@@ -1,8 +1,6 @@
 <template>
   <header class="dashboard__header">
-    <div class="v-align">
-      <CurrencySelect />
-    </div>
+    <CurrencySelect />
     <DateData :date="date" />
   </header>
 </template>

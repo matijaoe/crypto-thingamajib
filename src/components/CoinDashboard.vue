@@ -1,12 +1,10 @@
 <template>
   <section class="coin-dashboard">
-    <el-tooltip effect="light" content="Right click to toggle favorites" placement="right">
-      <div class="fav-switch">
-        <span class="fav-switch__label" :class="{ 'active': !showOnlyFavs }">All</span>
-        <el-switch v-model="showOnlyFavs" :disabled="!state.favoriteCoins.length" />
-        <span class="fav-switch__label" :class="{ 'active': showOnlyFavs }">Favorites</span>
-      </div>
-    </el-tooltip>
+    <CoinFavoritesSwitch
+      :has-favs="state.favoriteCoins.length"
+      :show-favs="showOnlyFavs"
+      @toggle-favs="showOnlyFavs = !showOnlyFavs"
+    />
     <div class="coin-grid">
       <base-card
         class="coin-card"
@@ -31,6 +29,7 @@ import { useStore } from 'vuex';
 import { ElNotification } from 'element-plus';
 import CoinData from '@/components/CoinData.vue';
 import CoinDasboardFooter from '@/components/CoinDasboardFooter.vue';
+import CoinFavoritesSwitch from '@/components/CoinFavoritesSwitch.vue';
 import { fetchAllCoinsIds } from '@/api/cryptoApi';
 import { Coin, CoinWithFav } from '@/models/coins';
 import { SimpleCoinIds } from '@/models/simple-coins';
@@ -117,21 +116,5 @@ const toggleFavorite = (coin: CoinWithFav) => {
   grid-template-columns: repeat(auto-fit, minmax(30rem, 1fr));
   gap: 1.6rem;
   align-items: start;
-}
-
-.fav-switch {
-  display: flex;
-  align-items: center;
-  gap: 1.8rem;
-  width: max-content;
-
-  &__label {
-    color: var(--gray-400);
-
-    &.active {
-      color: var(--primary-500);
-      font-weight: bold;
-    }
-  }
 }
 </style>
