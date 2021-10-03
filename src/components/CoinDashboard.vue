@@ -1,9 +1,10 @@
 <template>
   <section class="coin-dashboard">
-    <el-tooltip effect="light" content="Right click to toggle favorites" placement="top">
+    <el-tooltip effect="light" content="Right click to toggle favorites" placement="right">
       <div class="fav-switch">
+        <span class="fav-switch__label" :class="{ 'active': !showOnlyFavs }">All</span>
         <el-switch v-model="showOnlyFavs" :disabled="!state.favoriteCoins.length" />
-        <span>Only favorites</span>
+        <span class="fav-switch__label" :class="{ 'active': showOnlyFavs }">Favorites</span>
       </div>
     </el-tooltip>
     <div class="coin-grid">
@@ -62,7 +63,6 @@ watch(state.favoriteCoins, (favs) => {
 watch(coins, () => {
   if (coins.value && coins.value.length) {
     const firstCoin = coins.value[0];
-    console.log(firstCoin.last_updated);
     lastUpdated.value = firstCoin.last_updated;
   }
 });
@@ -119,19 +119,19 @@ const toggleFavorite = (coin: CoinWithFav) => {
   align-items: start;
 }
 
-.coin-card {
-  min-height: 14.1rem;
-}
-
 .fav-switch {
   display: flex;
   align-items: center;
   gap: 1.8rem;
   width: max-content;
-}
 
-.el-switch.is-checked .el-switch__core {
-  border-color: var(--border-color) !important;
-  background: var(--primary-600) !important;
+  &__label {
+    color: var(--gray-400);
+
+    &.active {
+      color: var(--primary-500);
+      font-weight: bold;
+    }
+  }
 }
 </style>

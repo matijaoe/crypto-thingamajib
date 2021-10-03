@@ -19,7 +19,7 @@ export default () => {
 
   return {
     totalPages,
-    currentPage,
+    currentPage: readonly(currentPage),
     perPage,
     totalCount: readonly(totalCount),
     setPage,
