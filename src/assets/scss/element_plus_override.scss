@@ -5,3 +5,29 @@ div[class*='el-'] {
     font-family: var(--font-mono);
   }
 }
+
+body {
+  --el-color-primary: var(--primary-500);
+  --el-color-primary-light-1: var(--primary-400);
+  --el-color-primary-light-2: var(--primary-400);
+  --el-color-primary-light-3: var(--primary-300);
+  --el-color-primary-light-4: var(--primary-300);
+  --el-color-primary-light-5: var(--primary-200);
+  --el-color-primary-light-6: var(--primary-200);
+  --el-color-primary-light-7: var(--primary-100);
+  --el-color-primary-light-8: var(--primary-100);
+  --el-color-primary-light-9: var(--primary-50);
+  --el-color-success: var(--success);
+  --el-color-warning: #e6a23c;
+  --el-color-danger: var(--error);
+  --el-color-error: var(--error);
+
+  --el-border-color-base: var(--gray-200);
+  --el-border-color-light: var(--gray-100);
+  --el-border-color-lighter: var(--gray-50);
+  --el-border-width-base: 2px;
+  --el-border-base: var(--el-border-width-base) var(--el-border-style-base)
+    var(--el-border-color-base);
+
+  --el-border-radius-base: var(--border-radius);
+}

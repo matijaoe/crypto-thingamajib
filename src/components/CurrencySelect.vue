@@ -8,7 +8,7 @@
     <el-option
       v-for="curr in currencies"
       :key="curr"
-      :label="curr"
+      :label="curr.toUpperCase()"
       :value="curr"
       class="currency-option"
     >

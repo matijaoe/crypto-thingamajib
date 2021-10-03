@@ -28,7 +28,6 @@ export default createStore({
     addToFavorites(state: DefaultState, coinId: string) {
       state.favoriteCoins.push(coinId);
       console.log(`${coinId} added to favs`);
-      console.log(state.favoriteCoins);
     },
   },
   actions: {
