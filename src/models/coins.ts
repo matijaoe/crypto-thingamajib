@@ -34,6 +34,10 @@ export interface Coin {
   price_change_percentage_24h_in_currency: number;
 }
 
+export interface CoinWithFav extends Coin {
+  favorite?: boolean;
+}
+
 // ----------------------------------------------------------
 
 export interface CodeAdditionsDeletions4_Weeks {

@@ -1,32 +1,18 @@
 <template>
   <header class="dashboard__header">
     <div class="v-align">
-      <el-button size="mini">
-        <base-icon class="icon" name="refresh" @click="refreshCoinData"></base-icon>
-      </el-button>
       <CurrencySelect />
     </div>
     <DateData :date="date" />
-    <!-- <DatePicker /> -->
   </header>
 </template>
 
 <script lang="ts" setup>
 import useDatePicker from '@/composables/useDatePicker';
-// import DatePicker from '@/components/DatePicker.vue';
 import DateData from '@/components/DateData.vue';
 import CurrencySelect from '@/components/CurrencySelect.vue';
-// import useLatestCoinData from '@/composables/useLatestCoinData';
-
-// const { fetchLatestCoins } = useLatestCoinData();
 
 const { date } = useDatePicker();
-
-const refreshCoinData = () => {
-  console.log('refresh');
-  // TODO: somehow get page and perpage data
-  // fetchLatestCoins();
-};
 
 </script>
 

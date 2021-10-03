@@ -23,11 +23,9 @@ export default createStore({
       if (coinIndex !== -1) {
         state.favoriteCoins.splice(coinIndex, 1);
       }
-      console.log(`${coinId} removed from favs`);
     },
     addToFavorites(state: DefaultState, coinId: string) {
       state.favoriteCoins.push(coinId);
-      console.log(`${coinId} added to favs`);
     },
   },
   actions: {
