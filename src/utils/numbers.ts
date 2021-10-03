@@ -9,7 +9,7 @@ export const formatPrice: formatPriceFn = (price: number, currency?: string) => 
     case 'btc':
       return numeral(price).format('0,0.0000000');
     case 'eth':
-      return numeral(price).format('0,0.00000');
+      return numeral(price).format('0,0.0000');
     default:
       return numeral(price).format('0,0.00');
   }

@@ -30,9 +30,8 @@
 <script lang="ts" setup>
 import { defineProps, computed } from 'vue';
 import { useStore } from 'vuex';
-import { formatPrice, formatPercentage } from '../utils/numbers';
+import { formatPrice, formatPercentage } from '@/utils/numbers';
 import { Coin } from '@/models/coins';
-// import { getCurrencyIcon } from '@/utils/currency';
 
 const props = defineProps<{
   coin: Coin;
@@ -41,7 +40,6 @@ const props = defineProps<{
 const { state, getters } = useStore();
 
 const currencyIcon = computed(() => getters['currencies/getCurrencyIcon'](state.currency));
-
 const priceHasGrown = computed(() => props.coin.price_change_percentage_24h > 0);
 
 const changeIcon = priceHasGrown.value ? 'trending-up' : 'trending-down';
