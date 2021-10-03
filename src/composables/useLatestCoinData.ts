@@ -11,7 +11,7 @@ export default () => {
   };
 
   return {
-    coins,
+    coins: readonly(coins),
     fetchLatestCoins,
   };
 };

@@ -1,8 +1,8 @@
 <template>
   <section class="coin-dashboard">
+    <el-switch v-model="showOnlyFavs" />
     <div class="coin-grid">
-      <el-switch v-model="showOnlyFavs" />
-      <base-card class="coin-card" v-for="coin in shownCoins" :key="coin.id">
+      <base-card v-for="coin in coinsWithFav" :key="coin.id" :class="{ 'is-fav': coin.favorite }">
         <CoinData :coin="coin" />
       </base-card>
     </div>
@@ -19,7 +19,7 @@
 
 <script lang="ts" setup>
 import {
-  ref, onMounted, watchEffect, computed,
+  ref, onMounted, watchEffect, watch, computed,
 } from 'vue';
 import { useStore } from 'vuex';
 import CoinData from '@/components/CoinData.vue';
@@ -40,20 +40,15 @@ const currentPage = ref<number>(1);
 const perPage = ref<number>(PER_PAGE);
 const totalCount = ref<number>(0);
 const showOnlyFavs = ref<boolean>(false);
+const coinsWithFav = ref<CoinWithFav[]>([...coins.value]);
 
 const totalPages = computed(() => totalCount.value / perPage.value);
-const coinsWithFav = ref([...coins.value]);
-coinsWithFav.value = coins.value.map((coin: Coin) => {
-  let favorite = false;
-  if (state.favoriteCoins.includes(coin.id)) {
-    console.log(coin.id);
-    favorite = true;
-  }
-  return { ...coin, favorite };
-});
 
-const onlyFavs = computed(() => coins.value.filter((coin: CoinWithFav) => !!coin.favorite));
-const shownCoins = computed(() => showOnlyFavs.value ? onlyFavs.value : coinsWithFav.value);
+// Create coins but with favorites
+watch(coins, () => {
+  coinsWithFav.value = coins.value.map((coin: Coin) =>
+    ({ ...coin, favorite: state.favoriteCoins.includes(coin.id) }));
+});
 
 const changePage = (page: number) => {
   currentPage.value = page;
@@ -65,6 +60,7 @@ const setCoins = async () => {
       perPage: perPage.value,
       vsCurrency: state.currency,
       page: currentPage.value,
+      ids: showOnlyFavs.value ? state.favoriteCoins.toString() : '',
     });
   } catch (err) {
     console.error(err);
