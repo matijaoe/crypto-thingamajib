@@ -18,7 +18,7 @@ const { date } = useDatePicker();
 .dashboard__header {
   display: flex;
   justify-content: space-between;
-  margin-bottom: 2.4rem;
+  align-items: center;
 
   @media only screen and (max-width: 700px) {
     flex-direction: column-reverse;

@@ -1,5 +1,6 @@
 <template>
   <section class="coin-dashboard">
+    <CoinDashboardHeader />
     <CoinFavoritesSwitch
       :has-favs="state.favoriteCoins.length"
       :show-favs="showOnlyFavs"
@@ -28,6 +29,7 @@ import {
 import { useStore } from 'vuex';
 import { ElNotification } from 'element-plus';
 import CoinData from '@/components/CoinData.vue';
+import CoinDashboardHeader from '@/components/CoinDashboardHeader.vue';
 import CoinDasboardFooter from '@/components/CoinDasboardFooter.vue';
 import CoinFavoritesSwitch from '@/components/CoinFavoritesSwitch.vue';
 import { fetchAllCoinsIds } from '@/api/cryptoApi';
@@ -109,7 +111,7 @@ const toggleFavorite = (coin: CoinWithFav) => {
 .coin-dashboard {
   display: flex;
   flex-direction: column;
-  gap: 3.2rem;
+  gap: 2.4rem;
 }
 .coin-grid {
   display: grid;
