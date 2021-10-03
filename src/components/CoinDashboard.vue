@@ -45,7 +45,7 @@ interface CoinWithFav extends Coin {
 }
 const { state, dispatch } = useStore();
 
-const PER_PAGE = 9;
+const PER_PAGE = 12;
 
 // REFS
 const currentPage = ref<number>(1);
@@ -68,8 +68,8 @@ const showFavoriteToggleNotification = (coin: CoinWithFav, added: boolean) => {
   ElNotification({
     title,
     message,
-    duration: 2000,
-    position: 'top-left',
+    duration: 5000,
+    position: 'top-right',
   });
 };
 
