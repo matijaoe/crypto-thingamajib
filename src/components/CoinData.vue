@@ -44,7 +44,6 @@ const priceHasGrown = computed(() => props.coin.price_change_percentage_24h > 0)
 
 const changeIcon = priceHasGrown.value ? 'trending-up' : 'trending-down';
 const changeIndicator = priceHasGrown.value ? 'up' : 'down';
-
 </script>
 
 <style lang="scss" scope>
@@ -81,7 +80,7 @@ const changeIndicator = priceHasGrown.value ? 'up' : 'down';
     position: absolute;
     top: 0;
     margin: 0;
-    right: 0;
+    right: 2rem;
     bottom: 0;
     font-size: 10rem;
     opacity: 0.2;

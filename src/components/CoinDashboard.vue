@@ -9,13 +9,18 @@
     <div class="coin-grid">
       <base-card
         class="coin-card"
-        v-for="  coin in coinsWithFav"
+        v-for="coin in coinsWithFav"
         :key="coin.id"
         :class="{ 'is-fav': coin.favorite }"
         @click.right="toggleFavorite(coin)"
         oncontextmenu="return false"
       >
         <CoinData :coin="coin" />
+        <template #back>
+          <p>{{ coin.market_cap }}</p>
+          <p>{{ coin.low_24h }}</p>
+          <p>{{ coin.high_24h }}</p>
+        </template>
       </base-card>
     </div>
     <CoinDasboardFooter :last-updated="lastUpdated" />
@@ -41,10 +46,7 @@ import useHomepagePagination from '@/composables/useHomepagePagination';
 const { state, dispatch } = useStore();
 const { coins, fetchLatestCoins } = useLatestCoinData();
 const {
-  currentPage,
-  perPage,
-  setTotalCount,
-  setPage,
+  currentPage, perPage, setTotalCount, setPage,
 } = useHomepagePagination();
 
 const showOnlyFavs = ref<boolean>(false);
@@ -91,11 +93,13 @@ const setCoins = async () => {
 
 watchEffect(setCoins);
 
-const coinsWithFav = computed(() => coins.value.map((coin: Coin) =>
-  ({ ...coin, favorite: state.favoriteCoins.includes(coin.id) })));
+const coinsWithFav = computed(() =>
+  coins.value.map((coin: Coin) => ({ ...coin, favorite: state.favoriteCoins.includes(coin.id) })));
 
 const showFavoriteToggleNotification = (coin: CoinWithFav, added: boolean) => {
-  const title = added ? `${coin.symbol.toUpperCase()} added to favorites!` : `${coin.symbol.toUpperCase()} removed from favorites`;
+  const title = added
+    ? `${coin.symbol.toUpperCase()} added to favorites!`
+    : `${coin.symbol.toUpperCase()} removed from favorites`;
   const message = `Right click to ${added ? 'remove it' : 'add it again'}`;
   ElNotification({
     title,
@@ -111,7 +115,6 @@ const toggleFavorite = (coin: CoinWithFav) => {
   dispatch('toggleFavorites', coin.id);
   showFavoriteToggleNotification(coin, coin.favorite);
 };
-
 </script>
 
 <style lang="scss" scoped>
