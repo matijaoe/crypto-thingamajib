@@ -1,6 +1,6 @@
 <template>
   <!-- eslint-disable max-len -->
-  <div v-if="coin && coin.id" class="coin">
+  <div v-if="coin && coin.id && front" class="coin">
     <div class="coin__data">
       <p class="coin__rank">#{{ coin.market_cap_rank }}</p>
       <img class="coin__thumb" :src="coin.image" />
@@ -9,7 +9,7 @@
     </div>
     <div class="coin__price" v-if="coin.current_price">
       <base-icon :name="currencyIcon" size="lg"></base-icon>
-      <p class="coin__price--amount">{{ formatPrice(coin.current_price, state.currency) }}</p>
+      <p class="coin__price--amount">{{ formatPrice(coin.current_price, state.currency, true) }}</p>
       <el-tooltip effect="light" content="24hr change" placement="top">
         <p class="coin__percentage" :class="[changeIndicator]">
           <base-icon :name="changeIcon" size="sm"></base-icon>
@@ -22,8 +22,33 @@
       <base-icon name="alert-octagon" size="md"></base-icon>
     </p>
   </div>
+  <div v-else-if="coin && coin.id && back" class="coin">
+    <div class="coin__row">
+      <span class="coin__stat--label">Market cap</span>
+      <p>
+        <base-icon :name="currencyIcon" size="sm"></base-icon>
+        {{ formatPrice(coin.market_cap, state.currency, false) }}
+      </p>
+    </div>
+    <div class="coin__row">
+      <div class="down">
+        <p class="coin__daycandle--value">
+          <base-icon :name="currencyIcon" size="sm"></base-icon>
+          {{ formatPrice(coin.low_24h, state.currency, true) }}
+        </p>
+        <span class="coin__daycandle--label">24hr low</span>
+      </div>
+      <div class="up">
+        <p class="coin__daycandle--value">
+          <base-icon :name="currencyIcon" size="sm"></base-icon>
+          {{ formatPrice(coin.high_24h, state.currency, true) }}
+        </p>
+        <span class="coin__daycandle--label">24hr high</span>
+      </div>
+    </div>
+  </div>
   <div v-else>
-    <p>No coin found</p>
+    <p>No data found</p>
   </div>
 </template>
 
@@ -35,6 +60,8 @@ import { Coin } from '@/models/coins';
 
 const props = defineProps<{
   coin: Coin;
+  front?: boolean,
+  back?: boolean
 }>();
 
 const { state, getters } = useStore();
@@ -118,28 +145,64 @@ const changeIndicator = priceHasGrown.value ? 'up' : 'down';
     gap: 0.4rem;
     font-weight: bold;
     z-index: 20;
+  }
 
-    &.up {
-      color: var(--success);
+  &__row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+  }
+
+  &__stat {
+    &--label {
+      font-weight: bold;
+      text-transform: uppercase;
+      font-size: 0.8em;
+    }
+  }
+
+  &__daycandle {
+    &--value {
+      margin: 0;
     }
 
-    &.down {
-      color: var(--error);
+    &--label {
+      margin: 0;
+      text-transform: uppercase;
+      font-size: 0.7em;
+      font-weight: bold;
     }
+  }
+
+  .up {
+    color: var(--success);
+  }
+
+  .down {
+    color: var(--error);
   }
 }
 
-.card {
-  &.is-fav {
-    border-color: var(--primary-200);
-    box-shadow: 0 0 2rem 0 var(--primary-100);
-    background: var(--primary-50);
-    color: var(--primary-700);
+.flip-card.backside {
+  .coin__ticker {
+    display: none;
+  }
+}
 
-    &:hover {
+.flip-card {
+  &.is-fav {
+    .flip-card-inner {
       border-color: var(--primary-200);
-      background: var(--primary-100);
-      color: var(--primary-800);
+      box-shadow: 0 0 2rem 0 var(--primary-100);
+      background: var(--primary-50);
+      color: var(--primary-700);
+
+      &:hover {
+        border-color: var(--primary-200);
+        background: var(--primary-100);
+        color: var(--primary-800);
+      }
     }
   }
 

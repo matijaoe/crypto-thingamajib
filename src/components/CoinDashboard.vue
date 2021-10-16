@@ -15,11 +15,9 @@
         @click.right="toggleFavorite(coin)"
         oncontextmenu="return false"
       >
-        <CoinData :coin="coin" />
+        <CoinData :coin="coin" front />
         <template #back>
-          <p>{{ coin.market_cap }}</p>
-          <p>{{ coin.low_24h }}</p>
-          <p>{{ coin.high_24h }}</p>
+          <CoinData :coin="coin" back />
         </template>
       </base-card>
     </div>

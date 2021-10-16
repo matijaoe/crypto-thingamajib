@@ -5,11 +5,7 @@
         <slot />
       </div>
       <div class="flip-card-back" @click="flipTo(Sides.FRONT)" ref="back">
-        <slot name="back">
-          <h1>John Doe</h1>
-          <p>Architect & Engineer</p>
-          <p>We love that guy</p>
-        </slot>
+        <slot name="back"></slot>
       </div>
     </div>
   </div>
@@ -39,10 +35,9 @@ const isBackSide = computed(() => currentSide.value === Sides.BACK);
   position: relative;
   perspective: 1000px; /* Remove this if you don't want the 3D effect */
   width: auto;
-  height: 155px;
+  height: 150px;
 }
 
-/* This container is needed to position the front and back side */
 .flip-card-inner {
   width: 100%;
   height: 100%;
@@ -60,15 +55,9 @@ const isBackSide = computed(() => currentSide.value === Sides.BACK);
   transform: rotateY(180deg);
 }
 
-/* Position the front and back side */
-.flip-card-front {
-  &:hover {
-    border-color: var(--primary-100);
-    box-shadow: 0 0 2rem 0 var(--primary-100);
-  }
-}
 .flip-card-front,
 .flip-card-back {
+  border-radius: var(--border-radius);
   padding: 1.6rem;
   position: absolute;
   width: 100%;
@@ -77,9 +66,13 @@ const isBackSide = computed(() => currentSide.value === Sides.BACK);
   bottom: 0;
   -webkit-backface-visibility: hidden; /* Safari */
   backface-visibility: hidden;
+
+  &:hover {
+    border-color: var(--primary-100);
+    box-shadow: 0 0 2rem 0 var(--primary-100);
+  }
 }
 
-/* Style the back side */
 .flip-card-back {
   background: white;
   transform: rotateY(180deg);
